@@ -5,8 +5,9 @@ export default class Cell {
         this.num = null
         this.isOpen = false
         this.flag = false
-        this.neighbors = () => {
-            const index = this.index
+        this.isNeighbor = false
+        this.neighbors = function (){
+            const index = data.index
             if(index % 30 === 0) {
                 return [index - 30, index + 30, index + 29, index - 1, index - 31].filter(idx => idx >= 1 && idx <= 480)
             }
@@ -14,8 +15,7 @@ export default class Cell {
                 return [index - 30, index - 29, index + 1, index + 31, index + 30].filter(idx => idx >= 1 && idx <= 480)
             }
             return [index - 30, index - 29, index + 1, index + 31, index + 30, index + 29, index - 1, index - 31].filter(idx => idx >= 1 && idx <= 480)
-
-        }
+        }()
     }
 
     putBomb(){
@@ -34,5 +34,8 @@ export default class Cell {
         this.flag = !this.flag
     }
 
+    getNeighbor() {
+        this.isNeighbor = !this.isNeighbor
+    }
 
 }
