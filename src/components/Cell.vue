@@ -6,7 +6,7 @@
      @mouseup="openNeighbors"
      oncontextmenu="return false;"
      class="w-[30px] h-[30px] border border-amber-700 hover:cursor-pointer backdrop-brightness-5 hover:backdrop-brightness-125 flex items-center justify-center"
-     :class="{'bg-amber-500' : cell.isOpen, 'bg-amber-600' : cell.isNeighbor }"
+     :class="{'bg-amber-500' : cell.isOpen, 'bg-amber-600' : cell.isNeighbor}"
  >
  <div v-if="cell.isOpen">
          <fa icon="bomb" v-if="cell.isBomb"/>
@@ -24,6 +24,7 @@ import { computed } from "vue";
 const props = defineProps({
     cell: Object,
 })
+const emit = defineEmits(['lose'])
 
 const cell = props.cell
 
@@ -37,7 +38,17 @@ const neighbors = computed(() => {
     })
 })
 
+import { useGame } from '@/store/game.js';
+const game = useGame()
+
+
 function open(cell) {
+    if(game.step === 'start'){
+        store.createField(cell.index)
+        game.nextStep()
+        open(cell)
+    }
+
    if (!cell.isOpen) {
        if(!cell.flag) {
            cell.openCell()
@@ -46,6 +57,9 @@ function open(cell) {
                    let neighbor = store.cellList.find(cell => cell.index === idx)
                    open(neighbor)
                })
+           }
+           if(cell.isBomb) {
+               emit('lose')
            }
        }
    }

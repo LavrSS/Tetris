@@ -9,10 +9,9 @@ import { useCells } from '@/store/cells.js';
 import {computed} from "vue";
 
 const store = useCells()
-const cellList = store.cellList
 
 const bombsCounter = computed(() => {
-    return 99 - cellList.filter(cell => cell.flag).length
+    return 99 - store.cellList.filter(cell => cell.flag).length
 })
 
 
