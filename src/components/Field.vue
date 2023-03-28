@@ -1,32 +1,35 @@
 <template>
-    <div class="w-[900px] h-[480px] bg-amber-400 flex flex-wrap">
-        <Cell v-for="cell in cells.cellList" :key="cell.index" :cell="cell" @lose="endGame"/>
+    <div class="flex flex-col-reverse">
+        <div v-for="y in ySize" :key="y" class="flex">
+            <VCell
+                v-for="x in xSize"
+                :key="y.toString() + x.toString()"
+                :cellID="getCell(x,y)"
+            />
+        </div>
     </div>
-    <button @click="start" class="absolute bottom-12 right-12 bg-amber-200 py-1 px-3 border rounded">START</button>
-    <BombCounter class="absolute left-12 top-12"/>
-    <Alert v-if="end"/>
 </template>
 
 <script setup>
-import Cell  from "@/components/Cell.vue";
-import BombCounter from "@/components/BombCounter.vue";
-import { useCells } from '@/store/cells.js';
-import { useGame } from '@/store/game.js';
-import {ref} from "vue";
-import Alert from "@/components/Alert.vue";
+import { ref } from "vue";
+import VCell from "./VCell.vue";
+import Cell from "@/store/models/Cell.js"
 
-const cells = useCells()
+const xSize = ref(10)
+const ySize = ref(20)
+
+import { useGame } from '@/store/game.js';
 const game = useGame()
 
-const end = ref(false)
+const cellList = ref([])
 
-function endGame() {
-    end.value = true
+function getCell(x,y) {
+    const cell = new Cell({x, y});
+    game.putCellFromCellList(cell)
+    return cell.index
 }
 
-function start() {
-    cells.startGame()
-}
+
 </script>
 
 <style scoped>

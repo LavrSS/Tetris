@@ -1,41 +1,15 @@
+let counter  = 0
+
 export default class Cell {
     constructor(data) {
-        this.index = data.index
-        this.isBomb = false
-        this.num = null
-        this.isOpen = false
-        this.flag = false
-        this.isNeighbor = false
-        this.neighbors = function (){
-            const index = data.index
-            if(index % 30 === 0) {
-                return [index - 30, index + 30, index + 29, index - 1, index - 31].filter(idx => idx >= 1 && idx <= 480)
-            }
-            if ((index - 1) % 30 === 0) {
-                return [index - 30, index - 29, index + 1, index + 31, index + 30].filter(idx => idx >= 1 && idx <= 480)
-            }
-            return [index - 30, index - 29, index + 1, index + 31, index + 30, index + 29, index - 1, index - 31].filter(idx => idx >= 1 && idx <= 480)
-        }()
+        this.index = counter++
+        this.x = data.x
+        this.y = data.y
+        this.isFigure = false
     }
 
-    putBomb(){
-        this.isBomb = true
+    makeFigure() {
+        console.log(this.index)
+        this.isFigure = !this.isFigure
     }
-
-    putNumber(num) {
-        this.num = num
-    }
-
-    openCell() {
-        this.isOpen = true
-    }
-
-    putFlag() {
-        this.flag = !this.flag
-    }
-
-    getNeighbor() {
-        this.isNeighbor = !this.isNeighbor
-    }
-
 }
