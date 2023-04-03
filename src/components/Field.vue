@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col-reverse">
+    <div class="flex flex-col-reverse" ref="field">
         <div v-for="y in ySize" :key="y" class="flex">
             <VCell
                 v-for="x in xSize"
@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {ref, watch} from "vue";
 import VCell from "./VCell.vue";
 import Cell from "@/store/models/Cell.js"
 
@@ -21,7 +21,10 @@ const ySize = ref(20)
 import { useGame } from '@/store/game.js';
 const game = useGame()
 
-const cellList = ref([])
+const figuresList = game.figuresList
+watch(figuresList, () => {
+    game.dropFigure()
+})
 
 function getCell(x,y) {
     const cell = new Cell({x, y});

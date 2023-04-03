@@ -9,7 +9,6 @@ export default class Cell {
     }
 
     makeFigure() {
-        console.log(this.index)
         this.isFigure = !this.isFigure
     }
 }

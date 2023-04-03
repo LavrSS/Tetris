@@ -1,8 +1,7 @@
 <template>
-    <div class="bg-cyan-700 border-cyan-300 w-6 h-6 border"
-         :class="{'bg-pink-600' : makePink}"
+    <div class="bg-cyan-700 border-cyan-300 w-7 h-7 border"
+         :class="{'bg-cyan-800': shadowFigure, 'bg-pink-600' : makePink}"
     >
-<!--        {{cell}}-->
     </div>
 </template>
 
@@ -21,10 +20,12 @@ const makePink = computed(() => {
     return cell.isFigure
 })
 
-// const makePink = computed(() => {
-//     console.log(cell.isFigure)
-//     return cell.isFigure
-// })
+const shadowFigure = computed(() => {
+    let cell = game.cellList.find(el => el.index === props.cellID)
+    let figurePoint = game.actualFigure.figureDotsList.coords.find(el => el.x === cell.x)
+    return  false
+})
+
 </script>
 
 <style scoped>
